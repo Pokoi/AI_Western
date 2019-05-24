@@ -32,14 +32,20 @@ public class EnemyController : MonoBehaviour
     CoverState       this_enemy_cover_state;
     MovementStates   this_enemy_movement_state;
 
-    void Start()
+    void Awake()
     {
         Locomotion                = GetComponent<MovementController>();
         this_enemy_view           = GetComponent<EnemyView>();
         this_enemy_cover_state    = CoverState.uncovered;
         this_enemy_movement_state = MovementStates.at_destination;
+
+    }
+
+    private void Start()
+    {
         StartCoroutine(CastingCoroutine(seconds_between_cast));
     }
+
     void Update()
     {
         MakeADecision();
@@ -52,6 +58,15 @@ public class EnemyController : MonoBehaviour
     public void AddNode(Node node){
         if (!known_nodes.Contains(node)) known_nodes.Add(node);
     }
+
+    /// <summary>
+    /// Clears the node list.
+    /// </summary>
+    public void ClearNodes()
+    {
+        known_nodes.Clear();
+    }
+
     /// <summary>
     /// Method called when the enemy is at the destination
     /// </summary>
@@ -59,6 +74,7 @@ public class EnemyController : MonoBehaviour
     { 
         this_enemy_movement_state = MovementStates.at_destination;
     }
+
     /// <summary>
     /// Method that updates the flag of seeing the player
     /// </summary>
@@ -66,6 +82,7 @@ public class EnemyController : MonoBehaviour
     {
         if (state != PerceptionSystem.seing_player) state = PerceptionSystem.seing_player;
     }
+
     /// <summary>
     /// Method that updates the flag of seeing the player.
     /// </summary>
@@ -73,6 +90,7 @@ public class EnemyController : MonoBehaviour
     {
         state = PerceptionSystem.searching_player;
     }
+
     /// <summary>
     /// Updates the current node ocupation.
     /// </summary>
@@ -81,6 +99,7 @@ public class EnemyController : MonoBehaviour
     {
         if(current_node != null) current_node.GetOcupation += amount;
     }
+
     /// <summary>
     /// Method that makes the decision of the enemy behaviour
     /// </summary>
@@ -130,8 +149,12 @@ public class EnemyController : MonoBehaviour
     /// <returns></returns>
     IEnumerator CastingCoroutine(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
-        this_enemy_view.CastTheRay();
+        while (true)
+        {
+            this_enemy_view.CastTheRay();
+            yield return new WaitForSeconds(seconds);
+        }
+       
     }
 
 

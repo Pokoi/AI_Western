@@ -61,6 +61,8 @@ public class EnemyView : MonoBehaviour {
     /// </summary>
     public void CastTheRay()
     {
+        controller_of_this_enemy.ClearNodes();
+
         //The hit of the raycast
         RaycastHit hit;
 
@@ -97,7 +99,7 @@ public class EnemyView : MonoBehaviour {
     /// <summary>
     /// At the first frame
     /// </summary>
-    void Start()    {
+    void Awake()    {
 
         controller_of_this_enemy = GetComponent<EnemyController>();
     }

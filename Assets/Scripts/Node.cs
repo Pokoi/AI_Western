@@ -16,7 +16,11 @@ using UnityEngine;
 public class Node : MonoBehaviour
 {
     public bool    GetVisibleByPlayer 
-    { get { return this_cover.Is_visible_for_player; } set { this_cover.Is_visible_for_player = value; } }
+    { 
+        get { return this_cover.Is_visible_for_player; }
+        set {
+            this_cover.Is_visible_for_player = value; }
+     }
     public int     GetOcupation      
     { get; set; }
     public Vector3 GetPosition       
@@ -30,7 +34,7 @@ public class Node : MonoBehaviour
 
     Cover this_cover;
 
-    private void Start()
+    private void Awake()
     {
         GetPosition = transform.position;
         this_cover  = transform.GetComponent<Cover>();

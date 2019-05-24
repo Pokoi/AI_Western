@@ -60,6 +60,7 @@ public class MovementController : MonoBehaviour {
     {
         transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + angles_to_rotate, transform.eulerAngles.z);
     }
+
     /// <summary>
     /// Stop the movement.
     /// </summary>
@@ -67,6 +68,7 @@ public class MovementController : MonoBehaviour {
     {
         able_to_move = false;
     }
+
     /// <summary>
     /// Resumes the movement.
     /// </summary>
@@ -74,6 +76,7 @@ public class MovementController : MonoBehaviour {
     {
         able_to_move = true;
     }
+
     /// <summary>
     /// Gets the new destination.
     /// </summary>

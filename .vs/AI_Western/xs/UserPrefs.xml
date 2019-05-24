@@ -1,0 +1,33 @@
+﻿<Properties StartupConfiguration="{89EC9B54-9822-7D45-25A5-7A58FE7EA603}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/MovementController.cs">
+    <Files>
+      <File FileName="Assets/Scripts/PlayerMovement.cs" Line="91" Column="6" />
+      <File FileName="Assets/Scripts/MainController.cs" Line="80" Column="6" />
+      <File FileName="Assets/Scripts/Cover.cs" Line="53" Column="2" />
+      <File FileName="Assets/Scripts/Node.cs" Line="37" Column="23" />
+      <File FileName="Assets/Scripts/EnemyController.cs" Line="48" Column="1" />
+      <File FileName="Assets/Scripts/MovementController.cs" Line="79" Column="1" />
+      <File FileName="Assets/Scripts/EnemyView.cs" Line="102" Column="15" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="AI_Western" expanded="True">
+            <Node name="Assets" expanded="True">
+              <Node name="Scripts" expanded="True">
+                <Node name="MovementController.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="096cf1bd-e802-44aa-baf0-2db910e076b4" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -89,23 +89,12 @@ public class PlayerMovement : MonoBehaviour
     /// </summary>
     void Update()
     {
-
-        // Set the position
-        // With transform
-        // my_transform.position += my_transform.forward * Time.deltaTime * mov_speed * Input.GetAxis("Vertical");
-        // my_transform.position += my_transform.right * Time.deltaTime * mov_speed * Input.GetAxis("Horizontal");
-
         // With rigidbody       
         speed_vector = my_transform.forward * Input.GetAxis("Vertical");
         my_rigidbody.velocity = speed_vector * mov_speed;
 
-        //Set the rotation
-        //y_rotation += (Input.GetAxis("Mouse X") * rot_speed);
-        //my_transform.rotation = Quaternion.Euler(my_transform.eulerAngles.x, y_rotation, my_transform.eulerAngles.z);
-
         y_rotation += (Input.GetAxis("Horizontal") * rot_speed);
-        my_transform.rotation = Quaternion.Euler(my_transform.eulerAngles.x, y_rotation, my_transform.eulerAngles.z);
-
+        my_transform.rotation = Quaternion.Lerp(my_transform.rotation, Quaternion.Euler(my_transform.eulerAngles.x, y_rotation, my_transform.eulerAngles.z), Time.deltaTime);
     }
 
 

@@ -97,6 +97,7 @@ public class PlayerView : MonoBehaviour {
         //Loop that cast (max_angle_ray - min_angle_ray)/angle_between_rays rays
         for (iterator = (byte)((max_angle_ray - min_angle_ray) / angle_between_rays); iterator > 0; iterator--)
         {
+            Debug.DrawRay(foot_ray_origin.position, direction * 10f, Color.cyan, seconds_between_casts);
             //If hits a cover
             if (Physics.Raycast(foot_ray_origin.position, direction, out hit) && hit.collider.GetComponent<Cover>())
             {
@@ -123,8 +124,13 @@ public class PlayerView : MonoBehaviour {
     /// <returns></returns>
     IEnumerator CastingCoroutine(float seconds)
     {
-        yield return new WaitForSeconds(seconds);
-        CastTheRay();
+        while (true)
+        {
+            CastTheRay();
+            yield return new WaitForSeconds(seconds);
+           
+        }
+
     }
 
     #endregion

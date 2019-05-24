@@ -49,13 +49,9 @@ public class Cover : MonoBehaviour
 
     /// <summary>
     /// If this cover is being seen by the player
-    /// </summary>
+    /// </summary
     private bool im_visible = false;
 
-    /// <summary>
-    /// If this cover is empty
-    /// </summary>
-    private bool im_empty = false;
 
     /// <summary>
     /// The mesh renderer of this object
