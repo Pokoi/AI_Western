@@ -19,7 +19,8 @@ public class EnemyController : MonoBehaviour
     public bool visible_for_player { get; set; }
     public Node current_node;
 
-    List<Node>         known_nodes          = new List<Node>();
+    List<Node>         known_nodes   = new List<Node>();
+    List<Weapon>       known_weapons = new List<Weapon>();
     MovementController Locomotion;
     EnemyView          this_enemy_view;
     ShotController     this_enemy_shot_controller;
@@ -27,10 +28,13 @@ public class EnemyController : MonoBehaviour
     enum PerceptionSystem { seing_player, searching_player        }
     enum CoverState       { half_covered, full_covered, uncovered }
     enum MovementStates   { moving, at_destination, stoped        }
+    enum ArmedState       { armed, disarmed}
 
     PerceptionSystem state;
     CoverState       this_enemy_cover_state;
     MovementStates   this_enemy_movement_state;
+    ArmedState       this_enemy_armed_state;
+    
 
     void Awake()
     {
@@ -38,6 +42,7 @@ public class EnemyController : MonoBehaviour
         this_enemy_view           = GetComponent<EnemyView>();
         this_enemy_cover_state    = CoverState.uncovered;
         this_enemy_movement_state = MovementStates.at_destination;
+        this_enemy_armed_state    = ArmedState.disarmed;
 
     }
 
@@ -108,35 +113,47 @@ public class EnemyController : MonoBehaviour
         switch (state)
         {
             case PerceptionSystem.seing_player:
-                switch (this_enemy_cover_state)
+
+                if (visible_for_player)
                 {
-                    case CoverState.full_covered:
-                        this_enemy_shot_controller.Shot();
-                        break;
-                    case CoverState.half_covered:
-                        if (visible_for_player) Locomotion.GetNewDestination(known_nodes);
-                        else this_enemy_shot_controller.Shot();
-                        break;
-                    case CoverState.uncovered:
-                        Locomotion.GetNewDestination(known_nodes);
-                        break;
+                    switch (this_enemy_cover_state)
+                    {
+                        case CoverState.full_covered:
+                            if (this_enemy_armed_state == ArmedState.armed) this_enemy_shot_controller.Shot();
+                            else SearchWeapon();
+                            break;
+                        case CoverState.half_covered:
+                            if (this_enemy_armed_state == ArmedState.armed) this_enemy_shot_controller.Shot();
+                            else SearchWeapon();
+                            break;
+                        case CoverState.uncovered:
+                            SearchCover();
+                            break;
+                    }
                 }
+                else SearchWeapon();
+              
                 break;
 
             case PerceptionSystem.searching_player:
-
-                switch (this_enemy_movement_state)
+                if (this_enemy_armed_state == ArmedState.armed)
                 {
-                    case MovementStates.at_destination:
-                        Locomotion.GetNewDestination(known_nodes);
-                        this_enemy_movement_state = MovementStates.moving;
-                        break;
-                    case MovementStates.moving:
-                        break;
-                    case MovementStates.stoped:
-                        Locomotion.GetNewDestination(known_nodes);
-                        break;
+                    switch (this_enemy_movement_state)
+                    {
+                        case MovementStates.at_destination:
+                            this_enemy_cover_state = CoverState.full_covered;
+                            Locomotion.GetNewDestination(known_nodes);
+                            this_enemy_movement_state = MovementStates.moving;
+                            break;
+                        case MovementStates.moving:
+                            this_enemy_cover_state = CoverState.uncovered;
+                            break;
+                        case MovementStates.stoped:
+                            Locomotion.GetNewDestination(known_nodes);
+                            break;
+                    }
                 }
+                else SearchWeapon();
 
                 break;
         }
@@ -155,6 +172,19 @@ public class EnemyController : MonoBehaviour
             yield return new WaitForSeconds(seconds);
         }
        
+    }
+
+    /// <summary>
+    /// Searchs a cover .
+    /// </summary>
+    void SearchCover()
+    {
+        Locomotion.GetNewDestination(known_nodes);
+    }
+
+    void SearchWeapon()
+    { 
+        Locomotion.
     }
 
 

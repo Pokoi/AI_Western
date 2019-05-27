@@ -105,9 +105,29 @@ public class MovementController : MonoBehaviour {
                 from_node = this_enemy_controller.current_node;
                 this_enemy_controller.UpdatesNodeOcupation(-1);
                 this_enemy_controller.current_node = current_node;
-                MoveToCover(current_node.GetPosition);
+                MoveToPosition(current_node.GetPosition);
             }
             else Rotate();
+
+        }
+    }
+
+    public void GetNewWeapon(List<Weapon> weapons, Weapon _current_weapon)
+    {
+        if(weapons.Count != 0)
+        {
+            Weapon current_weapon = _current_weapon;
+
+            foreach (Weapon weapon in weapons)
+            {
+                if (weapon.GetScore < current_weapon.GetScore || current_weapon == null)
+                    current_weapon = weapon;
+            }
+
+            if(current_weapon != null)
+            {
+               // MoveToPosition()
+            }
 
         }
     }
@@ -147,7 +167,7 @@ public class MovementController : MonoBehaviour {
     /// Method that set the destination position
     /// </summary>
     /// <param name="target_position"></param>
-    private void MoveToCover(Vector3 target_position)
+    private void MoveToPosition(Vector3 target_position)
     {
 
         x_position_to_check = target_position.x;

@@ -22,6 +22,8 @@ public class ShotController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////
     //public
 
+    public Weapon current_weapon;
+    public Transform weapon_socket;
 
 
     ///////////////////////////////////////////////////////////////////
@@ -38,6 +40,19 @@ public class ShotController : MonoBehaviour {
     {
         print("El enemigo hace pium pium");
         Debug.Break();
+    }
+
+    public void TakeWeapon(Weapon _w)
+    {
+        if (current_weapon != null)
+        {
+            current_weapon.transform.parent = WeaponManager.Instance.transform;
+            current_weapon.transform.position = new Vector3(current_weapon.transform.position.x, 0, current_weapon.transform.position.z);
+        }
+
+        current_weapon = _w;
+        current_weapon.transform.parent = weapon_socket;
+        current_weapon.transform.localPosition = Vector3.zero;
     }
 
     ///////////////////////////////////////////////////////////////////

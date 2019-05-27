@@ -70,6 +70,8 @@
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\PlayerView.cs" />
     <Compile Include="Assets\Scripts\ShotController.cs" />
+    <Compile Include="Assets\Scripts\Weapon.cs" />
+    <Compile Include="Assets\Scripts\WeaponManager.cs" />
     <None Include="Assets\Documentarion\Notas de la version.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>/Users/jesusvillar/AI_Western/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
