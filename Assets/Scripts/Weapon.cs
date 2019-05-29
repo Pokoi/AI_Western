@@ -33,10 +33,12 @@ public class Weapon : MonoBehaviour
 
         damage = CalculateRandomInteger(WeaponManager.Instance.MIN_DAMAGE, WeaponManager.Instance.MAX_DAMAGE);
         range  = CalculateRandomInteger(WeaponManager.Instance.MIN_RANGE, WeaponManager.Instance.MAX_RANGE);
-        score = CalculateScore();
+        score  = CalculateScore();
         renderer.material = WeaponManager.Instance.GetMaterial(score);
     }
 
     int CalculateRandomInteger(int min, int max) { return Random.Range(min, max); }
     int CalculateScore() { return ((damage * WeaponManager.Instance.DAMAGE_SCORE_MULTIPLIER) + (range * WeaponManager.Instance.RANGE_SCORE_MULTIPLIER)); }
+      
+    
 }

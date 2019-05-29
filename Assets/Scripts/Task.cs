@@ -81,7 +81,7 @@ public class SearchWeapon : Task
 
             foreach (Weapon weapon in weapons)
             {
-                if (weapon.GetScore < current_weapon.GetScore || current_weapon == null)
+                if (current_weapon == null || weapon.GetScore < current_weapon.GetScore)
                     current_weapon = weapon;
             }
 
@@ -92,4 +92,35 @@ public class SearchWeapon : Task
             else { decision_maker_reference.locomotion.Rotate(); }
         }
     }
+}
+
+public class Shot : Task
+{
+    public Shot(EnemyBlackBoard _b) : base(_b){ name = "Shot"; }
+
+    public override void Execute() { Debug.Break();}
+}
+
+public class TakeWeapon : Task
+{
+    public TakeWeapon(EnemyBlackBoard _b) : base(_b) { name = "Take Weapon"; }
+
+    public override void Execute()
+    {
+        Taken(blackboard_reference.GetDesiredWeapon());
+    }
+    void Taken(Weapon _w)
+    {
+        
+        if (blackboard_reference.GetWeapon() != null)
+        {
+            blackboard_reference.GetWeapon().transform.parent = WeaponManager.Instance.transform;
+            blackboard_reference.GetWeapon().transform.position = new Vector3(blackboard_reference.GetWeapon().transform.position.x, 0, blackboard_reference.GetWeapon().transform.position.z);
+        }
+
+        blackboard_reference.SetWeapon(_w);
+        blackboard_reference.GetWeapon().transform.parent = decision_maker_reference.weapon_socket;
+        blackboard_reference.GetWeapon().transform.localPosition = Vector3.zero;
+    }
+
 }

@@ -57,7 +57,6 @@
      <Compile Include="Assets\Scripts\CoverChecker.cs" />
      <Compile Include="Assets\Scripts\DecisionMaker.cs" />
      <Compile Include="Assets\Scripts\EnemyBlackBoard.cs" />
-     <Compile Include="Assets\Scripts\EnemyController.cs" />
      <Compile Include="Assets\Scripts\EnemyView.cs" />
      <Compile Include="Assets\Scripts\MainController.cs" />
      <Compile Include="Assets\Scripts\MovementController.cs" />

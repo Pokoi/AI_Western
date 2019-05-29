@@ -32,6 +32,7 @@ public class EnemyBlackBoard
     List<Weapon>  known_weapons;
 
     Weapon        current_weapon;
+    Weapon        desired_weapon;
     Node          current_node;
     Node          from_node;
     Vector3       enemy_position;
@@ -44,11 +45,13 @@ public class EnemyBlackBoard
         known_nodes    = new List<Node>();
         known_weapons  = new List<Weapon>();
         current_weapon = null;
+        this_enemy_armed_state = ArmedState.disarmed;
     }
 
     //----------------------------------------------------------------------------
     // Getters Methods
     public Weapon GetWeapon() { return current_weapon;}
+    
     public PerceptionSystem GetPerceptionState() { return state;}
     public VisibleStates GetVisibleState()       { return this_enemy_visible_state; }
     public CoverState GetCoverState()            { return this_enemy_cover_state;}
@@ -59,19 +62,21 @@ public class EnemyBlackBoard
     public List<Node> GetKnownNodes()            { return known_nodes; }
     public List<Weapon> GetKnownWeapons()        { return known_weapons; }
     public DecisionMaker GetDecisionMaker()      { return this_enemy_decision_maker; }
+    public Weapon GetDesiredWeapon()             { return desired_weapon; }
 
 
     //------------------------------------------------------------------------------
     // Setters Methods
-    public void SetWeapon(Weapon _w) { current_weapon = _w; }
-    public void SetPerceptionState(PerceptionSystem _p) { state = _p; }
-    public void SetVisibleState(VisibleStates _v)       { this_enemy_visible_state = _v; }
-    public void SetCoverState(CoverState _c)            { this_enemy_cover_state = _c; }
-    public void SetArmedState(ArmedState _a)            { this_enemy_armed_state = _a; }
-    public void SetCurrentNode(Node _n)                 { current_node = _n; }
+    public void SetWeapon(Weapon _w) { current_weapon = _w; OnChange(); }
+    public void SetPerceptionState(PerceptionSystem _p) { state = _p; OnChange(); }
+    public void SetVisibleState(VisibleStates _v)       { this_enemy_visible_state = _v; OnChange(); }
+    public void SetCoverState(CoverState _c)            { this_enemy_cover_state = _c; OnChange(); }
+    public void SetArmedState(ArmedState _a)            { this_enemy_armed_state = _a; OnChange(); }
+    public void SetCurrentNode(Node _n)                 { current_node = _n;}
     public void SaveEnemyPosition(Vector3 _v)           { enemy_position = _v; }
     public void SetFromNode(Node _n)                    { from_node = _n; }
     public void SetDecisionMaker(DecisionMaker _d)      { this_enemy_decision_maker = _d; }
+    public void SetDesiredWeapon(Weapon _w)             { desired_weapon = _w; OnChange(); }
 
 
     //--------------------------------------------------------------------------------
@@ -84,12 +89,9 @@ public class EnemyBlackBoard
 
     //--------------------------------------------------------------------------------
     // Other Methods
-    public void UpdateNodeOcupation(int amount) { current_node.GetOcupation += amount; }
-    public bool IsBetterWeapon(Weapon _w) { return _w.GetScore > current_weapon.GetScore; }
-    void OnChange()
-    {
-        //Do something
-    } 
+    public void UpdateNodeOcupation(int amount) { if(current_node != null) current_node.GetOcupation += amount; }
+    public bool IsBetterWeapon(Weapon _w) { return (current_weapon != null) ? _w.GetScore > current_weapon.GetScore : true; }
+    void OnChange() { this_enemy_decision_maker.MakeADecision(); } 
 
 
 }

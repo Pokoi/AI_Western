@@ -63,8 +63,7 @@ public class MovementController : MonoBehaviour {
     public void MoveToPosition(Vector3 target_position)
     {
         x_position_to_check = target_position.x;
-        z_position_to_check = target_position.z;
-
+        z_position_to_check = target_position.z;       
         direction = new Vector3(target_position.x, my_transform.position.y, target_position.z);
         my_transform.LookAt(direction);
 
@@ -75,20 +74,8 @@ public class MovementController : MonoBehaviour {
     //-----------------------------------------------------------------------------------------------
 
     public void SetDecisionMaker(DecisionMaker _dm) { decision_maker = _dm; }
-
-   
-
-    public void GetNewWeapon(List<Weapon> weapons, Weapon _current_weapon)
-    {
-        searching_what = Items.weapon;
-
-        
-    }
-
-    /// <summary>
-    /// At the first frame
-    /// </summary>
-    private void Start()
+    
+    private void Awake()
     {
         my_transform = transform;
 
@@ -97,10 +84,7 @@ public class MovementController : MonoBehaviour {
         z_position_to_check   = my_transform.position.z;
                
     }
-
-    /// <summary>
-    /// On each frame
-    /// </summary>
+        
     private void Update()
     {
         if (able_to_move)
@@ -116,7 +100,4 @@ public class MovementController : MonoBehaviour {
         }
     }
     
-  
-
-
 }

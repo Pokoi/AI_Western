@@ -89,7 +89,7 @@ public class EnemyView : MonoBehaviour {
             if (Physics.Raycast(foot_ray_origin.position, direction, out hit) && hit.collider.GetComponent<Weapon>())
             {
                 decision_maker.blackboard.AddKnownWeapon(hit.collider.GetComponent<Weapon>());
-                if (decision_maker.blackboard.IsBetterWeapon(hit.collider.GetComponent<Weapon>())) decision_maker.OnSeeBetterWeapon();
+                if (decision_maker.blackboard.IsBetterWeapon(hit.collider.GetComponent<Weapon>())) decision_maker.OnSeeBetterWeapon(hit.collider.GetComponent<Weapon>());
             }
 
             //Update ray direction

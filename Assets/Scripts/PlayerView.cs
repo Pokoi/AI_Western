@@ -109,7 +109,7 @@ public class PlayerView : MonoBehaviour {
             else if (Physics.Raycast(eye_ray_origin.position, direction, out hit) && hit.transform.CompareTag("enemy"))
             {
                 //Set this enemy as visble for the player
-                hit.transform.GetComponentInParent<EnemyController>().visible_for_player = true;
+                hit.transform.GetComponentInParent<DecisionMaker>().blackboard.SetVisibleState(EnemyBlackBoard.VisibleStates.visible_by_player);
             }
 
             //Update ray casting direction
