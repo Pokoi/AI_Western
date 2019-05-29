@@ -2,7 +2,7 @@
 // Author: Jesus 'Pokoi' Villar 
 //
 // Creation date: April 1st 2019
-// Last modification date: April 1st 2019 
+// Last modification date: May 29th 2019 
 //
 // © pokoidev 2018 (pokoidev.com)
 // Creative Commons License:
@@ -16,61 +16,17 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     public float seconds_between_cast = 1f;
-    public bool visible_for_player { get; set; }
     public Node current_node;
 
-    List<Node>         known_nodes   = new List<Node>();
-    List<Weapon>       known_weapons = new List<Weapon>();
-    MovementController Locomotion;
-    EnemyView          this_enemy_view;
-    ShotController     this_enemy_shot_controller;
+     
 
-    enum PerceptionSystem { seing_player, searching_player        }
-    enum CoverState       { half_covered, full_covered, uncovered }
-    enum MovementStates   { moving, at_destination, stoped        }
-    enum ArmedState       { armed, disarmed}
-
-    PerceptionSystem state;
-    CoverState       this_enemy_cover_state;
-    MovementStates   this_enemy_movement_state;
-    ArmedState       this_enemy_armed_state;
-    
-
-    void Awake()
-    {
-        Locomotion                = GetComponent<MovementController>();
-        this_enemy_view           = GetComponent<EnemyView>();
-        this_enemy_cover_state    = CoverState.uncovered;
-        this_enemy_movement_state = MovementStates.at_destination;
-        this_enemy_armed_state    = ArmedState.disarmed;
-
-    }
-
-    private void Start()
-    {
-        StartCoroutine(CastingCoroutine(seconds_between_cast));
-    }
 
     void Update()
     {
         MakeADecision();
     }
+    
 
-    /// <summary>
-    /// Adds the given node to the list of known nodes.
-    /// </summary>
-    /// <param name="node">Node.</param>
-    public void AddNode(Node node){
-        if (!known_nodes.Contains(node)) known_nodes.Add(node);
-    }
-
-    /// <summary>
-    /// Clears the node list.
-    /// </summary>
-    public void ClearNodes()
-    {
-        known_nodes.Clear();
-    }
 
     /// <summary>
     /// Method called when the enemy is at the destination
@@ -159,20 +115,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Courutine that calls the method "CastTheRay" of the view system each given seconds
-    /// </summary>
-    /// <param name="seconds"></param>
-    /// <returns></returns>
-    IEnumerator CastingCoroutine(float seconds)
-    {
-        while (true)
-        {
-            this_enemy_view.CastTheRay();
-            yield return new WaitForSeconds(seconds);
-        }
-       
-    }
+
 
     /// <summary>
     /// Searchs a cover .
@@ -183,8 +126,8 @@ public class EnemyController : MonoBehaviour
     }
 
     void SearchWeapon()
-    { 
-        Locomotion.
+    {
+        Locomotion.GetNewWeapon(known_weapons, this_enemy_shot_controller.current_weapon);
     }
 
 

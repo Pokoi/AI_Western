@@ -22,7 +22,7 @@ public class ShotController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////
     //public
 
-    public Weapon current_weapon;
+    public Weapon    current_weapon;
     public Transform weapon_socket;
 
 
@@ -35,6 +35,9 @@ public class ShotController : MonoBehaviour {
     #region Methods
     ///////////////////////////////////////////////////////////////////
     //public
+
+    
+
 
     public void Shot()
     {
@@ -58,7 +61,10 @@ public class ShotController : MonoBehaviour {
     ///////////////////////////////////////////////////////////////////
     //private
 
-
+    void Start()
+    {
+        //TakeWeapon(transform.GetComponentInChildren<Weapon>());
+    }
     #endregion
 
 }

@@ -15,18 +15,10 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
-    public bool    GetVisibleByPlayer 
-    { 
-        get { return this_cover.Is_visible_for_player; }
-        set {
-            this_cover.Is_visible_for_player = value; }
-     }
-    public int     GetOcupation      
-    { get; set; }
-    public Vector3 GetPosition       
-    { get; private set; }
-    public Node    GetNode           
-    { get { return this; }}
+    public bool    GetVisibleByPlayer { get { return this_cover.Is_visible_for_player; } set { this_cover.Is_visible_for_player = value; } }
+    public int     GetOcupation       { get; set; }
+    public Vector3 GetPosition        { get; private set; }
+    public Node    GetNode            { get { return this; }}
 
     private float _vision_mulitplier      = 1f;
     private float _disspersion_multiplier = 1f;
@@ -46,18 +38,21 @@ public class Node : MonoBehaviour
     /// <returns>The FS tar.</returns>
     /// <param name="enemy_see_player">If set to <c>true</c> enemy see player.</param>
     /// <param name="enemy_position">Enemy position.</param>
-    public float GetFStar(bool enemy_see_player, Vector3 enemy_position)
+    public float GetFStar(EnemyBlackBoard.PerceptionSystem enemy_see_player, Vector3 enemy_position)
     {
-        return enemy_see_player
-               ? ((CalculateG(enemy_position) * _distance_multiplier) + (CalculateVisionIndex() * _vision_mulitplier) + (CalculateDisspersionIndex() * _disspersion_multiplier))
-               : ((CalculateG(enemy_position) * _distance_multiplier) + (CalculateDisspersionIndex() * _disspersion_multiplier));
+        float to_return = 0;
+
+        switch (enemy_see_player)
+        {
+            case EnemyBlackBoard.PerceptionSystem.seing_player:     to_return = ((CalculateG(enemy_position) * _distance_multiplier) + (CalculateVisionIndex() * _vision_mulitplier) + (CalculateDisspersionIndex() * _disspersion_multiplier)); break;
+            case EnemyBlackBoard.PerceptionSystem.searching_player: to_return = ((CalculateG(enemy_position) * _distance_multiplier) + (CalculateDisspersionIndex() * _disspersion_multiplier)); break;
+        }
+
+        return to_return;
     }
 
-    private float CalculateG(Vector3 position) 
-    { return Mathf.Clamp((Vector3.Distance(position, GetPosition) * 0.01f), 0, 1); }
-    private float CalculateVisionIndex() 
-    { return GetVisibleByPlayer ? 1 : 0; }
-    private float CalculateDisspersionIndex()
-    { return GetOcupation > 0 ? 1 : 0; }
+    private float CalculateG(Vector3 position) { return Mathf.Clamp((Vector3.Distance(position, GetPosition) * 0.01f), 0, 1); }
+    private float CalculateVisionIndex()       { return GetVisibleByPlayer ? 1 : 0; }
+    private float CalculateDisspersionIndex()  { return GetOcupation > 0 ? 1 : 0; }
 
 }

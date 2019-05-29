@@ -2,7 +2,7 @@
 // Author: Jesus 'Pokoi' Villar 
 //
 // Creation date: October 19th 2018
-// Last modification date: October 19th 2018 
+// Last modification date: May 29th 2019 
 //
 // © pokoidev 2018 (pokoidev.com)
 // Creative Commons License:
@@ -45,91 +45,44 @@ public class MovementController : MonoBehaviour {
     /// <summary>
     /// Reference to the controller of this enemy
     /// </summary>
-    EnemyController this_enemy_controller;
+    DecisionMaker decision_maker;
     /// <summary>
     /// If this enemy is able to move.
     /// </summary>
     bool able_to_move;
     Node from_node = null;
+    Transform my_transform;
 
   
-    /// <summary>
-    /// Rotates the enemy
-    /// </summary>
-    public void Rotate()
+    //------------------------------------------------------------------------------------------------
+    // Movement Management
+
+    public void Rotate() { my_transform.eulerAngles = new Vector3(my_transform.eulerAngles.x, my_transform.eulerAngles.y + angles_to_rotate, my_transform.eulerAngles.z); }
+    public void Stop() { able_to_move = false;  }   
+    public void ResumeMovement() { able_to_move = true; }
+    public void MoveToPosition(Vector3 target_position)
     {
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y + angles_to_rotate, transform.eulerAngles.z);
+        x_position_to_check = target_position.x;
+        z_position_to_check = target_position.z;
+
+        direction = new Vector3(target_position.x, my_transform.position.y, target_position.z);
+        my_transform.LookAt(direction);
+
+        ResumeMovement();
     }
 
-    /// <summary>
-    /// Stop the movement.
-    /// </summary>
-    public void Stop()
-    {
-        able_to_move = false;
-    }
 
-    /// <summary>
-    /// Resumes the movement.
-    /// </summary>
-    public void ResumeMovement()
-    {
-        able_to_move = true;
-    }
+    //-----------------------------------------------------------------------------------------------
 
-    /// <summary>
-    /// Gets the new destination.
-    /// </summary>
-    /// <param name="nodes">Nodes.</param>
-    public void GetNewDestination(List<Node> nodes)
-    {
-        if (nodes.Count != 0)
-        {
+    public void SetDecisionMaker(DecisionMaker _dm) { decision_maker = _dm; }
 
-            float minimum_f_star = -1;
-            Node current_node = null;
-
-            foreach (Node node in nodes)
-            {
-                float node_f_star = node.GetFStar(this_enemy_controller.visible_for_player, transform.position);
-
-                if ((minimum_f_star == -1 || node_f_star < minimum_f_star) && node != this_enemy_controller.current_node && node != from_node)
-                {
-                    minimum_f_star = node_f_star;
-                    current_node = node;
-                }
-            }
-
-            if (current_node != null)
-            {
-                from_node = this_enemy_controller.current_node;
-                this_enemy_controller.UpdatesNodeOcupation(-1);
-                this_enemy_controller.current_node = current_node;
-                MoveToPosition(current_node.GetPosition);
-            }
-            else Rotate();
-
-        }
-    }
+   
 
     public void GetNewWeapon(List<Weapon> weapons, Weapon _current_weapon)
     {
-        if(weapons.Count != 0)
-        {
-            Weapon current_weapon = _current_weapon;
+        searching_what = Items.weapon;
 
-            foreach (Weapon weapon in weapons)
-            {
-                if (weapon.GetScore < current_weapon.GetScore || current_weapon == null)
-                    current_weapon = weapon;
-            }
-
-            if(current_weapon != null)
-            {
-               // MoveToPosition()
-            }
-
-        }
+        
     }
 
     /// <summary>
@@ -137,11 +90,14 @@ public class MovementController : MonoBehaviour {
     /// </summary>
     private void Start()
     {
+        my_transform = transform;
+
         //Reset the Final position coordinates
-        x_position_to_check = transform.position.x;
-        z_position_to_check = transform.position.z;
-        this_enemy_controller = GetComponent<EnemyController>();
+        x_position_to_check   = my_transform.position.x;
+        z_position_to_check   = my_transform.position.z;
+               
     }
+
     /// <summary>
     /// On each frame
     /// </summary>
@@ -150,34 +106,17 @@ public class MovementController : MonoBehaviour {
         if (able_to_move)
         {
             //If the enemy is at the destination
-            if (Mathf.Abs(x_position_to_check - transform.position.x) <= 0.1 && Mathf.Abs(z_position_to_check - transform.position.z) <= 0.1)
-            {
-                this_enemy_controller.AtDestination();
-                this_enemy_controller.UpdatesNodeOcupation(1);
-
-            }
+            if (Mathf.Abs(x_position_to_check - my_transform.position.x) <= 0.1 && Mathf.Abs(z_position_to_check - my_transform.position.z) <= 0.1) { decision_maker.ItemFound();}
             else
             {
                 //Moves to the destination
-                transform.position = Vector3.MoveTowards(transform.position, direction, mov_speed * Time.deltaTime);
+                my_transform.position = Vector3.MoveTowards(my_transform.position, direction, mov_speed * Time.deltaTime);
+                decision_maker.blackboard.SaveEnemyPosition(my_transform.position);
             }
         }
     }
-    /// <summary>
-    /// Method that set the destination position
-    /// </summary>
-    /// <param name="target_position"></param>
-    private void MoveToPosition(Vector3 target_position)
-    {
-
-        x_position_to_check = target_position.x;
-        z_position_to_check = target_position.z;
-
-        direction = new Vector3(target_position.x, transform.position.y, target_position.z);
-        transform.LookAt(direction);
-
-        ResumeMovement();
-    }
+    
+  
 
 
 }

@@ -1,4 +1,15 @@
-﻿using System.Collections;
+﻿//
+// Author: Jesus 'Pokoi' Villar 
+//
+// Creation date: May 27th 2019
+// Last modification date: May 27th 2019 
+//
+// © pokoidev 2019 (pokoidev.com)
+// Creative Commons License:
+// Attribution 4.0 International (CC BY 4.0)
+//
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

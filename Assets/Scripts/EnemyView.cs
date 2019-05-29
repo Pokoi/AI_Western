@@ -44,15 +44,11 @@ public class EnemyView : MonoBehaviour {
     /// The origin of the foot rays
     /// </summary>
     public Transform foot_ray_origin;
-
-    /// <summary>
-    /// If this enemy is being seen by the player
-    /// </summary>
-    private bool im_visible;
+        
     /// <summary>
     /// The controller of this enemy.
     /// </summary>
-    EnemyController controller_of_this_enemy;
+    DecisionMaker decision_maker;
 
 
 
@@ -61,7 +57,8 @@ public class EnemyView : MonoBehaviour {
     /// </summary>
     public void CastTheRay()
     {
-        controller_of_this_enemy.ClearNodes();
+        decision_maker.blackboard.ClearKnownNodes();
+        decision_maker.blackboard.ClearKnownWeapons();
 
         //The hit of the raycast
         RaycastHit hit;
@@ -79,29 +76,35 @@ public class EnemyView : MonoBehaviour {
             if (Physics.Raycast(eye_ray_origin.position, direction, out hit) && hit.transform.CompareTag("player"))
             {
                 seing_player = true;
+                decision_maker.OnSeePlayer();
             }
 
             //If hits a cover
             if (Physics.Raycast(foot_ray_origin.position, direction, out hit) && hit.collider.GetComponent<Cover>())
             {
-                controller_of_this_enemy.AddNode(hit.collider.GetComponent<Node>().GetNode);
+                decision_maker.blackboard.AddKnownCoverNode(hit.collider.GetComponent<Node>().GetNode);
+            }
+
+            //If hits a weapon
+            if (Physics.Raycast(foot_ray_origin.position, direction, out hit) && hit.collider.GetComponent<Weapon>())
+            {
+                decision_maker.blackboard.AddKnownWeapon(hit.collider.GetComponent<Weapon>());
+                if (decision_maker.blackboard.IsBetterWeapon(hit.collider.GetComponent<Weapon>())) decision_maker.OnSeeBetterWeapon();
             }
 
             //Update ray direction
             direction = Quaternion.Euler(0, angle_between_rays, 0) * direction;
         }
 
-        if (seing_player) controller_of_this_enemy.SeeingPlayer();
-        else              controller_of_this_enemy.NotSeeingPlayer();
+        if (!seing_player) decision_maker.blackboard.SetPerceptionState(EnemyBlackBoard.PerceptionSystem.searching_player);   
 
-       
     }
     /// <summary>
     /// At the first frame
     /// </summary>
     void Awake()    {
 
-        controller_of_this_enemy = GetComponent<EnemyController>();
+        decision_maker = GetComponent<DecisionMaker>();
     }
 
 }
