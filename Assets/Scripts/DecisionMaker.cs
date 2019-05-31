@@ -96,14 +96,7 @@ public class DecisionMaker : MonoBehaviour
 
         StartCoroutine(CastingCoroutine(seconds_between_cast));
     }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+       
 
     IEnumerator CastingCoroutine(float seconds)
     {

@@ -25,8 +25,7 @@ public abstract class Task
 }
 
 public class SearchCover : Task
-{
-    
+{    
     public SearchCover(EnemyBlackBoard _b) : base(_b){ name = "Search Cover"; }
 
     public override void Execute()
@@ -96,7 +95,6 @@ public class SearchWeapon : Task
         }
     }
 
-   
 }
 
 public class Shot : Task
@@ -109,7 +107,6 @@ public class Shot : Task
 public class TakeWeapon : Task
 {
     public TakeWeapon(EnemyBlackBoard _b) : base(_b) { name = "Take Weapon"; }
-
     public override void Execute()
     {
         CanvasManager.Instance.SetCurrentTask(this.ToString());
@@ -128,5 +125,4 @@ public class TakeWeapon : Task
         blackboard_reference.GetWeapon().transform.parent = decision_maker_reference.weapon_socket;
         blackboard_reference.GetWeapon().transform.localPosition = Vector3.zero;
     }
-
 }
