@@ -20,9 +20,9 @@ public class Node : MonoBehaviour
     public Vector3 GetPosition        { get; private set; }
     public Node    GetNode            { get { return this; }}
 
-    private float _vision_mulitplier      = 1f;
-    private float _disspersion_multiplier = 1f;
-    private float _distance_multiplier    = 1f;
+    private float _vision_mulitplier      = 50f;
+    private float _disspersion_multiplier = 20f;
+    private float _distance_multiplier    = 10f;
 
     Cover this_cover;
 
@@ -48,11 +48,17 @@ public class Node : MonoBehaviour
             case EnemyBlackBoard.PerceptionSystem.searching_player: to_return = ((CalculateG(enemy_position) * _distance_multiplier) + (CalculateDisspersionIndex() * _disspersion_multiplier)); break;
         }
 
+        this_cover.SetText(Mathf.RoundToInt(to_return).ToString());
         return to_return;
     }
+
+    public Cover GetCover() { return this_cover; }
 
     private float CalculateG(Vector3 position) { return Mathf.Clamp((Vector3.Distance(position, GetPosition) * 0.01f), 0, 1); }
     private float CalculateVisionIndex()       { return GetVisibleByPlayer ? 1 : 0; }
     private float CalculateDisspersionIndex()  { return GetOcupation > 0 ? 1 : 0; }
+
+
+    
 
 }

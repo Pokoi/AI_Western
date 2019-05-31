@@ -61,7 +61,6 @@ public class CoverChecker : MonoBehaviour {
     /// </summary>
     void AddCoversToMainList()
     {
-
         foreach (var c in Covers)
         {
             MainController.Instance.cover_list.Add(c.gameObject);

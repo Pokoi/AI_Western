@@ -74,6 +74,7 @@ public class MovementController : MonoBehaviour {
     //-----------------------------------------------------------------------------------------------
 
     public void SetDecisionMaker(DecisionMaker _dm) { decision_maker = _dm; }
+    public Vector3 GetPosition() { return my_transform.position; }
     
     private void Awake()
     {
@@ -82,8 +83,8 @@ public class MovementController : MonoBehaviour {
         //Reset the Final position coordinates
         x_position_to_check   = my_transform.position.x;
         z_position_to_check   = my_transform.position.z;
-               
-    }
+        
+    }  
         
     private void Update()
     {

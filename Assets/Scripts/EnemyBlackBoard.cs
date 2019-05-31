@@ -90,7 +90,7 @@ public class EnemyBlackBoard
     //--------------------------------------------------------------------------------
     // Other Methods
     public void UpdateNodeOcupation(int amount) { if(current_node != null) current_node.GetOcupation += amount; }
-    public bool IsBetterWeapon(Weapon _w) { return (current_weapon != null) ? _w.GetScore > current_weapon.GetScore : true; }
+    public bool IsBetterWeapon(Weapon _w) { return (current_weapon != null) ? _w.GetScore(GetEnemyPosition()) > current_weapon.GetScore(GetEnemyPosition()) : true; }
     void OnChange() { this_enemy_decision_maker.MakeADecision(); } 
 
 

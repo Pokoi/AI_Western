@@ -43,6 +43,8 @@ public class Cover : MonoBehaviour
         }
     }
 
+    TextMesh text;
+
 
     ///////////////////////////////////////////////////////////////////
     //private 
@@ -80,7 +82,11 @@ public class Cover : MonoBehaviour
     private void Awake()
     {
         renderer = transform.GetComponent<MeshRenderer>();
+        text = GetComponentInChildren<TextMesh>();
+        SetText("");
     }
+
+    public void SetText(string _text) { text.text = _text; }
 
     #endregion
 

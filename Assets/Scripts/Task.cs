@@ -31,10 +31,12 @@ public class SearchCover : Task
 
     public override void Execute()
     {
+        CanvasManager.Instance.SetCurrentTask(this.ToString());
         GetNewDestination(blackboard_reference.GetKnownNodes());
     }
     private void GetNewDestination(List<Node> nodes)
     {     
+        foreach (var go in MainController.Instance.cover_list) { go.GetComponent<Cover>().SetText(""); }
         if (nodes.Count != 0)
         {
 
@@ -42,7 +44,7 @@ public class SearchCover : Task
             Node  current_node   = null;
 
             foreach (Node node in nodes)
-            {
+            {                
                 float node_f_star = node.GetFStar(blackboard_reference.GetPerceptionState(), blackboard_reference.GetEnemyPosition());
 
                 if ((minimum_f_star == -1 || node_f_star < minimum_f_star) && node != blackboard_reference.GetCurrentNode() && node != blackboard_reference.GetFromNode())
@@ -70,6 +72,7 @@ public class SearchWeapon : Task
 
     public override void Execute()
     {
+        CanvasManager.Instance.SetCurrentTask(this.ToString());
         GetNewWeapon(blackboard_reference.GetKnownWeapons(), blackboard_reference.GetWeapon());
     }
 
@@ -81,7 +84,7 @@ public class SearchWeapon : Task
 
             foreach (Weapon weapon in weapons)
             {
-                if (current_weapon == null || weapon.GetScore < current_weapon.GetScore)
+                if (current_weapon == null || weapon.GetScore(blackboard_reference.GetEnemyPosition()) < current_weapon.GetScore(blackboard_reference.GetEnemyPosition()))
                     current_weapon = weapon;
             }
 
@@ -92,13 +95,15 @@ public class SearchWeapon : Task
             else { decision_maker_reference.locomotion.Rotate(); }
         }
     }
+
+   
 }
 
 public class Shot : Task
 {
     public Shot(EnemyBlackBoard _b) : base(_b){ name = "Shot"; }
 
-    public override void Execute() { Debug.Break();}
+    public override void Execute() { CanvasManager.Instance.SetCurrentTask(this.ToString()); Debug.Break();}
 }
 
 public class TakeWeapon : Task
@@ -107,6 +112,7 @@ public class TakeWeapon : Task
 
     public override void Execute()
     {
+        CanvasManager.Instance.SetCurrentTask(this.ToString());
         Taken(blackboard_reference.GetDesiredWeapon());
     }
     void Taken(Weapon _w)

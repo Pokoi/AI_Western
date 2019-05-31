@@ -25,11 +25,10 @@ public class WeaponManager : MonoBehaviour
     public readonly int MAX_RANGE  = 20;
     public readonly int DAMAGE_SCORE_MULTIPLIER = 2;
     public readonly int RANGE_SCORE_MULTIPLIER  = 1;
+    public readonly int DISTANCE_MULTIPLIER = 10;
     public int score_material_separator;
 
-    public Material[] materials;
-
-
+    public Material[] materials;  
 
     // Start is called before the first frame update
     void Awake()
