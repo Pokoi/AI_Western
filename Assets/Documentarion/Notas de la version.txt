@@ -1,2 +1,0 @@
-Este paquete se ha realizado en la versión de Unity
-2018.3.1f1

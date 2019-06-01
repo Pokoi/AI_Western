@@ -68,7 +68,6 @@
      <Compile Include="Assets\Scripts\Task.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
      <Compile Include="Assets\Scripts\WeaponManager.cs" />
-     <None Include="Assets\Documentarion\Notas de la version.txt" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/Usuario/Documents/GitHub/AI_Western/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>

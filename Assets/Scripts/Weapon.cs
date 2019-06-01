@@ -51,6 +51,6 @@ public class Weapon : MonoBehaviour
         return Mathf.RoundToInt(to_return);
     }
 
-    float CalculateG(Vector3 position) { return Mathf.Clamp((Vector3.Distance(position, GetPosition) * 0.01f), 0, 1); }
+    float CalculateG(Vector3 position) { return Vector3.Distance(position, GetPosition) * 0.01f; }
 
 }
